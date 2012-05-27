@@ -11,7 +11,7 @@ Authors: Joel Gascoigne         Tom Ashworth
 var config = {};
 config.plugin = {
     label: "Buffer This Page",
-    version: "2.1.5",
+    version: "2.2",
     guide: 'http://bufferapp.com/guides/chrome/installed',
     menu: {
         page: {
@@ -113,19 +113,17 @@ chrome.extension.onConnect.addListener(function(chport) {
 
     // Listen for a request for scraper data
     port.on("buffer_details_request", function () {
-        console.log("Details request.");
         overlayPort = port;
         var i = 0, l = ports.length;
         for( ; i < l; i++ ) {
-            var p = ports[i];
-            console.log(i, p);
-            p.emit("buffer_details_request");
+			var p = ports[i];
+
+			// send a request to scrape the page, only if the port tab matches the current tab
+			if (tab.url === p.raw.tab.url) p.emit("buffer_details_request");
         }
-        
     });
 
     port.on("buffer_details", function (data) {
-        console.log(data);
         if( overlayPort ) overlayPort.emit("buffer_details", data);
     });
 
