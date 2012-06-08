@@ -18,7 +18,7 @@
 				"data/chrome/buffer-chrome-embed.js", 
 				"data/shared/libs/jquery-1.7.2.min.js",
 				"data/shared/buffer-preload-overlay.js",
-				"data/chrome/buffer-chrome.js"
+				"data/shared/embeds/buffer-scraper.js"
 			]
 		},
 		{
@@ -26,6 +26,7 @@
 			"js": [
 				"data/chrome/buffer-chrome-port-wrapper.js",
 				"data/chrome/buffer-chrome-embed.js",
+				"data/shared/libs/jquery-1.7.2.min.js",
 				"data/shared/embeds/buffer-overlay-scraper.js"
 			],
 			"all_frames": true
