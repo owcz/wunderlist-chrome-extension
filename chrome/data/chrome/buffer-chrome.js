@@ -4,7 +4,7 @@
         var overlayPort = PortWrapper(chport);
         
         overlayPort.on("buffer_click", function(postData) {
-            bufferData(overlayPort, postData);
+            // bufferData(overlayPort, postData);
         });
   
     });
