@@ -1,5 +1,4 @@
 // Initialise the port if it hasn't been already
-if( ! xt ) var xt = {};
 if( ! xt.port.raw ) xt.port = PortWrapper(chrome.extension.connect({name: "buffer-embed"}));
 
 // Are we in an iframe?

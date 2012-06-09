@@ -76,10 +76,10 @@ var triggerOverlay = function (data, cb) {
 	});
 
 	// Ask for page data from the scraper
-	tabs.pageScraperPort.emit("buffer_request_details");
+	tab.pageScraperPort.emit("buffer_request_details");
 
 	// Inform the preloaded overlay of the trigger
-	tabs.overlayPort.emit("buffer_click");
+	tab.overlayPort.emit("buffer_click");
 };
 
 // Initialise a tab object for use later
