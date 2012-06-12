@@ -28,9 +28,24 @@ config.plugin = {
 	}
 };
 
+// Cache /add
+// TODO: Check protocol of current tab before sending cached src
+$.srcCache('add.http.html', 'http://bufferapp.com/add', function (url) {
+	console.log(url);
+});
+// $.srcCache('add.https.html', 'https://bufferapp.com/add', function (url) {
+// 	console.log(url);
+// });
+
 // Tab data
 var activeTab, activeTabId;
 var tabs = [];
+
+var checkTab = function (tab) {
+
+	return (tab.overlayPort && tab.pageScraperPort && tab.overlayScraperPort);
+	
+};
 
 // Overlay
 var triggerOverlay = function (data, cb) {
@@ -47,6 +62,10 @@ var triggerOverlay = function (data, cb) {
 	var tab = tabs[activeTabId];
 
 	console.log("Triggering from ", tab);
+
+	if ( ! checkTab(tab) ) {
+		return;
+	}
 
 	// Remove the port once the Buffering is complete
 	tab.overlayPort.on('buffer_done', function (overlayData) {
@@ -76,7 +95,7 @@ var triggerOverlay = function (data, cb) {
 	});
 
 	// Ask for page data from the scraper
-	tab.pageScraperPort.emit("buffer_request_details");
+	tab.pageScraperPort.emit("buffer_details_request");
 
 	// Inform the preloaded overlay of the trigger
 	tab.overlayPort.emit("buffer_click");
@@ -163,13 +182,15 @@ chrome.extension.onConnect.addListener(function(chport) {
 	var tab = port.raw.sender.tab;
 
 	// Store a reference to the tab from the tabs []
-	if( ! tabs[tab.id] ) console.log("Tab onConnect called without being initliased.", tab, tabs);
+	if( ! tabs[tab.id] ) console.log("Tab onConnect called without being initialised.", tab, tabs);
 	connectedTab = tabs[tab.id];
 	
 	// Listen for embedded trigger
 	port.on("buffer_click", function (embed) {
 		// Don't fire the overlay if we haven't preloaded it
-		if( ! connectedTab.overlayPort ) return;
+		if ( ! checkTab(tab) ) {
+			return;
+		}
 
 		// Attach the overlay using the current tab's ports
 		triggerOverlay({tab: tab, embed: embed}, function (overlaydata) {
@@ -191,6 +212,9 @@ chrome.extension.onConnect.addListener(function(chport) {
 	port.on("buffer_register_overlay", function () {
 		console.log("buffer_register_overlay");
 		connectedTab.overlayPort = port;
+		connectedTab.overlayPort.emit("buffer_cache_endpoint", {
+			endpoint: $.srcCache('add.http.html')
+		});
 	});
 	port.on("buffer_register_page_scraper", function () {
 		console.log("buffer_register_page_scraper");

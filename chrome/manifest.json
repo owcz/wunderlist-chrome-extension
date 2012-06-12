@@ -7,7 +7,7 @@
 	},
 	"background_page": "buffer.html",
 	"permissions": [
-		"tabs", "http://*/*", "contextMenus"
+		"tabs", "http://*/*", "contextMenus", "<all_urls>"
 	],
 	"content_scripts": [
 		{
