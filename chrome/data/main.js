@@ -28,15 +28,6 @@ config.plugin = {
 	}
 };
 
-// Cache /add
-// TODO: Check protocol of current tab before sending cached src
-$.srcCache('add.http.html', 'http://bufferapp.com/add', function (url) {
-	console.log(url);
-});
-// $.srcCache('add.https.html', 'https://bufferapp.com/add', function (url) {
-// 	console.log(url);
-// });
-
 // Tab data
 var activeTab, activeTabId;
 var tabs = [];
@@ -64,6 +55,7 @@ var triggerOverlay = function (data, cb) {
 	console.log("Triggering from ", tab);
 
 	if ( ! checkTab(tab) ) {
+        console.log("Not initialised correctely. Reload pls. ", tab);
 		return;
 	}
 
@@ -81,23 +73,25 @@ var triggerOverlay = function (data, cb) {
 	data.version = config.plugin.version;
 	if( data.embed.placement ) data.placement = data.embed.placement;
 
+    var sent = false;
+
 	// Wait for details back from the scraper
-	tab.pageScraperPort.on("buffer_details", function (scraperData) {
+	tab.pageScraperPort.on("buffer_scraped", function (scraperData) {
 
 		// Add the scraper data to the trigger data
 		$.extend(true, data, scraperData);
 
-		console.log(data);
+		console.log("sending", data);
 
 		// Pass this data directly into the preloaded overlay
-		tab.overlayScraperPort.emit("buffer_details", data);
+		tab.overlayScraperPort.emit("buffer_data", data);
 
 	});
 
 	// Ask for page data from the scraper
 	tab.pageScraperPort.emit("buffer_details_request");
 
-	// Inform the preloaded overlay of the trigger
+	// Inform the preloaded overlay of the trigger (to show the overlay)
 	tab.overlayPort.emit("buffer_click");
 };
 
@@ -124,14 +118,9 @@ chrome.tabs.onCreated.addListener(function (tab) {
 	initTab(tab.id);
 });
 
-// Check intialisation of a new tab is needed
-chrome.tabs.onActivated.addListener(function (tab) {
-	if( ! tabs[tab.tabId] ) initTab(tab.tabId);
-});
-
-// Delete references to a tab as it closes
-chrome.tabs.onRemoved.addListener(function (tabId) {
-	tabs[tabId] = undefined;
+// Reinit a tab when the page is updated
+chrome.tabs.onUpdated.addListener(function (id, info, tab) {
+    // initTab(id);
 });
 
 // Show the guide on first run
@@ -145,10 +134,7 @@ if( ! localStorage.getItem('buffer.run') ) {
 // Fire the overlay when the button is clicked
 chrome.browserAction.onClicked.addListener(function(tab) {
 	console.log(tabs, tab);
-	if( ! tabs[tab.id].overlayPort ) {
-		console.log("OverlayPort not registered.");
-	}
-	triggerOverlay({tab: tab, placement: 'toolbar'});
+    triggerOverlay({tab: tab, placement: 'toolbar'});
 });
 
 // Context menus
@@ -189,6 +175,7 @@ chrome.extension.onConnect.addListener(function(chport) {
 	port.on("buffer_click", function (embed) {
 		// Don't fire the overlay if we haven't preloaded it
 		if ( ! checkTab(tab) ) {
+            console.log("Not initialised correctely. Reload pls. ", tab);
 			return;
 		}
 
@@ -209,12 +196,9 @@ chrome.extension.onConnect.addListener(function(chport) {
 	});
 
 	// Register ports with the active tab
-	port.on("buffer_register_overlay", function () {
-		console.log("buffer_register_overlay");
+	port.on("buffer_register_overlay", function (data) {
+		console.log("buffer_register_overlay", (new Date()).getTime() - data.time);
 		connectedTab.overlayPort = port;
-		connectedTab.overlayPort.emit("buffer_cache_endpoint", {
-			endpoint: $.srcCache('add.http.html')
-		});
 	});
 	port.on("buffer_register_page_scraper", function () {
 		console.log("buffer_register_page_scraper");
