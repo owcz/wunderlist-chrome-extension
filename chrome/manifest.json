@@ -59,5 +59,15 @@
 		"16": "logo_icon_small.png",
 		"48": "logo_icon_large.png",
 		"128": "logo_icon_128.png"
-	}
+	},
+	"intents": {
+    "http://webintents.org/share": [
+      { 
+        "type": ["image/*", "text/uri-list"],
+        "href": "intent-share.html",
+        "title" : "Share via Buffer",
+        "disposition" : "window"
+      }
+    ]
+  }  
 }
