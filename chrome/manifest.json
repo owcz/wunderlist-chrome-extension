@@ -1,6 +1,6 @@
 {
 	"name": "Buffer",
-	"version": "2.2.15",
+  "version": "2.2.15",
 	"manifest_version": 2,
 	"description": "Easily add great articles, pictures and videos to your Buffer and we automagically share them for you through the day!",
 	"browser_action": {
@@ -72,7 +72,7 @@
 	"intents": {
     "http://webintents.org/share": [
       { 
-        "type": ["image/*", "text/uri-list"],
+        "type": ["text/uri-list"],
         "href": "intent-share.html",
         "title" : "Share via Buffer",
         "disposition" : "window"
