@@ -9,9 +9,9 @@
       "matches": [ "http://*/*", "https://*/*" ]
    }],
   "default_locale": "en",
-  "description": "Add to Wunderlist is the easiest & fastest way to add websites & links you like to Wunderlist to view later.",
+  "description": "__MSG_appDesc__",
   "manifest_version": 2,
-  "name": "Add to Wunderlist",
+  "name": "__MSG_appName__",
   "permissions": [ "tabs", "http://*/*", "contextMenus" ],
   "version": "1.0",
   "icons": { "16": "icon16.png",
