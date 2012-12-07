@@ -1,0 +1,20 @@
+{
+   "background": { "page": "app.html" },
+   "browser_action": { "default_icon": "icon.png" },
+   "content_scripts": [ {
+      "js": [
+        "data/chrome/wunderlist-chrome-port-wrapper.js",
+        "data/chrome/wunderlist-chrome.js"
+      ],
+      "matches": [ "http://*/*", "https://*/*" ]
+   }],
+  "default_locale": "en",
+  "description": "Add to Wunderlist is the easiest & fastest way to add websites & links you like to Wunderlist to view later.",
+  "manifest_version": 2,
+  "name": "Add to Wunderlist",
+  "permissions": [ "tabs", "http://*/*", "contextMenus" ],
+  "version": "1.0",
+  "icons": { "16": "icon16.png",
+              "48": "icon48.png",
+              "128": "icon128.png" }
+}
