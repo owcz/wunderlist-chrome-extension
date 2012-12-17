@@ -3,7 +3,7 @@ chrome.manifest = chrome.app.getDetails();
 
 // Plugin configuration
 var config = {
-  'host': 'http://0.0.0.0:5000' //'https://beta.wunderlist.com'
+  'host': 'https://www.wunderlist.com'
 };
 
 // Trigger wunderlist_click in the content scripts,
