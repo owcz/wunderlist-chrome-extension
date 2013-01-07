@@ -48,6 +48,7 @@
           frame.style.opacity = 1;
 
           setTimeout(function () {
+
             frame.style.cssText = buildCss({
               'opacity': 1,
               'transitionSpeed': 50

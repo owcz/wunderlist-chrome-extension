@@ -1,21 +1,21 @@
 // Load App Scripts
-// (function () {
+(function () {
 
-//   var scripts = [
-//     'https://wunderlist2.s3.amazonaws.com/fdc013aec2c319cbe338cf5fa447faef839a4c76/app.js',
-//     'https://wunderlist2.s3.amazonaws.com/7fc13e13f865a44dad1fbfae7fb0dac3710f1b19/libs.js'
-//   ];
+  var scripts = [
+    'https://wunderlist2.s3.amazonaws.com/7fc13e13f865a44dad1fbfae7fb0dac3710f1b19/libs.js',
+    'https://wunderlist2.s3.amazonaws.com/fdc013aec2c319cbe338cf5fa447faef839a4c76/app.js'
+  ];
 
-//   for (var i in scripts) {
+  for (var i in scripts) {
 
-//     var script = document.createElement('script');
-//     script.type = 'text/javascript';
-//     script.src = scripts[i];
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = scripts[i];
 
-//     var s = document.getElementsByTagName('script')[0];
-//     s.parentNode.insertBefore(script, s);
-//   }
-// })();
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(script, s);
+  }
+})();
 
 // Add manifest access to the extension
 chrome.manifest = chrome.app.getDetails();
