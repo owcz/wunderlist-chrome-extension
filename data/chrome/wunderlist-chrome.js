@@ -1,7 +1,5 @@
 (function() {
 
-  console.log('ran');
-
   var overlayId = 'wunderlist_overlay';
 
   function buildUrl (data) {
@@ -101,60 +99,42 @@
     var hash = window.location.hash;
 
     var $button = $('#addToWunderlistButton');
+    if ($button.length) {
 
-    console.log(host, hash);
+      $button.remove();
+    }
 
     if (/mail\.google\.com/.test(host) && hash.split('/')[1]) {
 
-      if (!$button.length) {
+      // these classes may change, not sure how long they last on gmail
+      var $mainContainer = $('#\\:ro');
+      var $validChild = $mainContainer.children('div:visible');
+      var $headerButtons = $validChild.find('.G-Ni');
+      var $targetContainer = $($headerButtons.get(3));
 
-        console.log('in here');
+      var $clone = $targetContainer.contents().clone();
 
-        var $container = $('#\\:ro');
+      var addString = 'Add to Wunderlist';
+      $clone.empty().attr('id', 'addToWunderlistButton')
+        .attr('data-tooltip', addString)
+        .attr('aria-label', addString)
+        .attr('aria-haspopup', 'false')
+        .text('+ Wunderlist');
 
-        var $upperButtons = $container.find('.G-Ni');
-        console.log($upperButtons);
+      $targetContainer.append($clone);
 
-        var $div = $('<div/>');
-        $div.attr('id', 'addToWunderlistButton').css({
+      $('#addToWunderlistButton').on('click', function () {
 
-          // TO DO
-          'cursor': 'pointer',
-          'background-color': 'transparent',
-          'background-image': 'linear-gradient(top,#f5f5f5,#f1f1f1)',
-          'border-radius': '2px',
-          'text-align': 'center',
-          'width': '200px',
-          'padding': '4px 10px',
-          'border': '1px solid rgba(0,0,0,0.1)'
-        }).text('Add to Wunderlist');
+        var data = {};
+        var config = {
 
-        $container.prepend($div);
+          'host': 'https://www.wunderlist.com'
+        };
 
-        $('#addToWunderlistButton').on('click', function () {
-
-          console.log('clicked');
-          var data = {};
-          var config = {
-            'host': 'https://www.wunderlist.com'
-            //'host': 'https://www.wunderlist.com'
-          };
-          data.config = config;
-          data.title = window.title;
-          showOverlay(data);
-        });
-      }
-      else {
-
-        $button.show();
-      }
-    }
-    else {
-
-      if ($button.length) {
-
-        $button.hide();
-      }
+        data.config = config;
+        data.title = window.title;
+        showOverlay(data);
+      });
     }
   }
 
@@ -165,6 +145,7 @@
 
   $(function () {
 
+    // takes a while for the dom to be really ready
     window.setTimeout(injectQuickAddLink, 5000);
     window.onhashchange = injectQuickAddLink;
   });
