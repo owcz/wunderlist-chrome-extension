@@ -1,6 +1,12 @@
 (function() {
 
+  var addString = 'Add to Wunderlist';
   var overlayId = 'wunderlist_overlay';
+  var buttonId = 'addToWunderlistButton';
+  var config = {
+
+    'host': 'https://www.wunderlist.com'
+  };
 
   function buildUrl (data) {
 
@@ -93,12 +99,69 @@
     });
   });
 
+  function gmailQuickAdd () {
+
+    // these classes may change, not sure how long they last on gmail
+    var $mainContainer = $('#\\:ro');
+    var $validChild = $mainContainer.children('div:visible');
+    var $headerButtons = $validChild.find('.G-Ni');
+    var $targetContainer = $($headerButtons.get(3));
+
+    var $clone = $targetContainer.contents().clone();
+
+    $clone.empty().attr('id', buttonId)
+      .attr('data-tooltip', addString)
+      .attr('aria-label', addString)
+      .attr('aria-haspopup', 'false')
+      .text('+ Wunderlist');
+
+    $targetContainer.append($clone);
+
+    $('#' + buttonId).on('click', function () {
+
+      var data = {};
+
+      data.config = config;
+      data.title = window.title;
+      showOverlay(data);
+    });
+  }
+
+  function outlookQuickAdd () {
+
+    var $cloneTarget = $('#Archive').parent();
+    var $clone = $cloneTarget.clone();
+
+    $clone.find('a').attr('id', buttonId)
+      .attr('title', addString)
+      .attr('aid', 'wunderlist')
+      .text('+ Wunderlist');
+
+    $cloneTarget.before($clone);
+
+    $('#' + buttonId).on('click', function () {
+
+      var data = {};
+
+      data.config = config;
+      data.title = $('.ReadMsgSubject').text();
+      var $note = $('.MsgPartBody').clone();
+      $note.find('style').remove();
+      data.note = $note.text();
+      showOverlay(data);
+    });
+
+  }
+
   function injectQuickAddLink () {
+
+    console.log('hash change');
 
     var host = window.location.hostname;
     var hash = window.location.hash;
+    var search = window.location.search;
 
-    var $button = $('#addToWunderlistButton');
+    var $button = $('#' + buttonId);
     if ($button.length) {
 
       $button.remove();
@@ -106,48 +169,45 @@
 
     if (/mail\.google\.com/.test(host) && hash.split('/')[1]) {
 
-      // these classes may change, not sure how long they last on gmail
-      var $mainContainer = $('#\\:ro');
-      var $validChild = $mainContainer.children('div:visible');
-      var $headerButtons = $validChild.find('.G-Ni');
-      var $targetContainer = $($headerButtons.get(3));
+      gmailQuickAdd();
+    }
+    else if (/mail\.live\.com/.test(host) && (/&mid=/.test(hash) || /&mid=/.test(search))) {
 
-      var $clone = $targetContainer.contents().clone();
-
-      var addString = 'Add to Wunderlist';
-      $clone.empty().attr('id', 'addToWunderlistButton')
-        .attr('data-tooltip', addString)
-        .attr('aria-label', addString)
-        .attr('aria-haspopup', 'false')
-        .text('+ Wunderlist');
-
-      $targetContainer.append($clone);
-
-      $('#addToWunderlistButton').on('click', function () {
-
-        var data = {};
-        var config = {
-
-          'host': 'https://www.wunderlist.com'
-        };
-
-        data.config = config;
-        data.title = window.title;
-        showOverlay(data);
-      });
+      outlookQuickAdd();
     }
   }
 
-  function extractData () {
+  var lastLocation = window.location.hostname + window.location.search + window.location.hash;
+  function checkLocation () {
 
-    var note = document.getElementById(':sv').innerText;
+    var host = window.location.hostname;
+    var hash = window.location.hash;
+    var search = window.location.search;
+
+    if (lastLocation !== host + search + hash) {
+
+      lastLocation = host + search + hash;
+      injectQuickAddLink();
+    }
   }
 
   $(function () {
 
-    // takes a while for the dom to be really ready
-    window.setTimeout(injectQuickAddLink, 5000);
-    window.onhashchange = injectQuickAddLink;
+    var timeout = 100;
+    var host = window.location.hostname;
+
+    if (/mail\.google\.com/.test(host)) {
+
+      timeout = 5000;
+    }
+
+    // takes a while for the dom to be really ready on gmail
+    window.setTimeout(injectQuickAddLink, timeout);
+    // simulate onhashchange for websites that are messing with pushstate and history
+    window.setTimeout(function () {
+
+      window.setInterval(checkLocation, 100);
+    }, timeout);
   });
 
 }());
