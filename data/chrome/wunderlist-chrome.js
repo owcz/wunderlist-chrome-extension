@@ -145,12 +145,42 @@
 
       data.config = config;
       data.title = $('.ReadMsgSubject').text();
-      var $note = $('.MsgPartBody').clone();
-      $note.find('style').remove();
-      data.note = $note.text();
+      data.note = $('.ReadMsgBody').text();
       showOverlay(data);
     });
+  }
 
+  function amazonQuickAdd () {
+
+    var $targetContainer = $('.buyingDetailsGrid');
+    var $button = $('<div/>').attr('id', buttonId)
+      .css({
+
+        'cursor': 'pointer',
+        'margin': '10px 0',
+        'text-align': 'center',
+        'width': '100%'
+      })
+      .text(addString);
+
+    $targetContainer.prepend($button);
+
+    $('#' + buttonId).on('click', function (ev) {
+
+      ev.stopPropagation();
+      ev.preventDefault();
+
+      var data = {};
+
+      data.config = config;
+      data.title = $('meta[name="title"]').text();
+      data.note = $('link[rel="canonical"]').text();
+      showOverlay(data);
+      return false;
+    }).on('submit', function () {
+
+      return false;
+    });
   }
 
   function injectQuickAddLink () {
@@ -174,6 +204,10 @@
     else if (/mail\.live\.com/.test(host) && (/&mid=/.test(hash) || /&mid=/.test(search))) {
 
       outlookQuickAdd();
+    }
+    else if (/amazon\./.test(host)) {
+
+      amazonQuickAdd();
     }
   }
 
