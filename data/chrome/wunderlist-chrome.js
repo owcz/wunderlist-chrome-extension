@@ -5,7 +5,8 @@
   var buttonId = 'addToWunderlistButton';
   var config = {
 
-    'host': 'https://www.wunderlist.com'
+    // 'host': 'https://www.wunderlist.com'
+    'host': 'http://localhost:5000'
   };
 
   function buildUrl (data) {
@@ -13,7 +14,7 @@
     // Builds url for passing data to wunderlist.com extension frame.
     // Takes passes in data, or defaults to the tabs title and url or text selection in the frame
 
-    var title = data.title || encodeURI(document.title);
+    var title = data.title || encodeURIComponent(document.title);
     var note = data.note || window.location.href;
     var selection = window.getSelection().toString();
 
@@ -22,7 +23,7 @@
       note = note + "\n" + selection;
     }
 
-    note = encodeURI(note);
+    note = encodeURIComponent(note);
 
     return data.config.host + '/#/extension/add/' + title + '/' + note;
   }
@@ -109,11 +110,15 @@
 
     var $clone = $targetContainer.contents().clone();
 
-    $clone.empty().attr('id', buttonId)
+    $clone.empty().addClass('gmail')
+      .attr('id', buttonId)
       .attr('data-tooltip', addString)
       .attr('aria-label', addString)
       .attr('aria-haspopup', 'false')
-      .text('+ Wunderlist');
+      .text('Wunderlist');
+
+    var $span = $('<span/>').addClass('wunderlist-icon');
+    $clone.prepend($span);
 
     $targetContainer.append($clone);
 
@@ -132,10 +137,14 @@
     var $cloneTarget = $('#Archive').parent();
     var $clone = $cloneTarget.clone();
 
-    $clone.find('a').attr('id', buttonId)
+    $clone.find('a').addClass('outlook')
+      .attr('id', buttonId)
       .attr('title', addString)
       .attr('aid', 'wunderlist')
-      .text('+ Wunderlist');
+      .text('Wunderlist');
+
+    var $span = $('<span/>').addClass('wunderlist-icon');
+    $clone.find('a').prepend($span);
 
     $cloneTarget.before($clone);
 
@@ -153,15 +162,13 @@
   function amazonQuickAdd () {
 
     var $targetContainer = $('.buyingDetailsGrid');
-    var $button = $('<div/>').attr('id', buttonId)
-      .css({
-
-        'cursor': 'pointer',
-        'margin': '10px 0',
-        'text-align': 'center',
-        'width': '100%'
-      })
+    var $button = $('<div/>').addClass('amazon')
+      .attr('id', buttonId)
       .text(addString);
+
+    var $icon = $('<span/>').addClass('wunderlist-icon');
+
+    $button.prepend($icon);
 
     $targetContainer.prepend($button);
 
