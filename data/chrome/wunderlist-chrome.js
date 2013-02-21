@@ -238,7 +238,7 @@
       data.config = config;
 
       data.title = $('h1 .itemprop').text() + ' [' + $.trim($('.star-box-giga-star').text()) + ']';
-      data.note = $('link[rel="canonical"]').text();
+      data.note = $('link[rel="canonical"]').attr('href') + " " + $.trim($('p[itemprop="description"]').text());
 
       showOverlay(data);
       return false;
