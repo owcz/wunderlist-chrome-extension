@@ -1,3 +1,19 @@
+/* overlay and login */
+#wunderlist_overlay {
+  
+  border: none;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: 99999999;
+  top: 0px;
+  left: 0px;
+  opacity: 1;
+  display: block;
+  -webkit-transition: opacity 50ms linear;
+}
+
+/* buttons */
 #addToWunderlistButton.gmail {
 
   padding-right: 14px;
@@ -26,6 +42,11 @@
   width: 16px;
   display: inline-block;
   background-size: 16px;
+}
+
+#wunderlist-container {
+
+  background-image: none !important;
 }
 
 #addToWunderlistButton.amazon span.wunderlist-icon {

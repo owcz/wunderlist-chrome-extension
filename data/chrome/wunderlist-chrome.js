@@ -34,7 +34,7 @@
     var transitionSpeed = options && options.transitionSpeed || 500;
     var opacity = options && options.opacity || 0;
 
-    return 'border:none;height:100%;width:100%;position:fixed;z-index:99999999;top:0;left:0;opacity:' + opacity + ';display:block;-webkit-transition:opacity ' + transitionSpeed + 'ms linear;';
+    return 'opacity:' + opacity + ';-webkit-transition:opacity ' + transitionSpeed + 'ms linear;';
   }
 
   function showOverlay (postData) {
@@ -159,6 +159,31 @@
     });
   }
 
+  function yahooQuickAdd () {
+
+    var $cloneTarget = $('.btn-spam:visible');
+    var $clone = $cloneTarget.clone().attr('id', 'wunderlist-container')
+      .removeClass('btn-spam');
+
+    $clone.find('a').attr('id', buttonId)
+      .addClass('yahoo')
+      .attr('title', addString)
+      .attr('data-action', '')
+      .text('Wunderlist');
+
+    $('.btn-msg-actions:visible').after($clone);
+
+    $('#' + buttonId).on('click', function () {
+
+      var data = {};
+
+      data.config = config;
+      data.title = $('.info > h3').text();
+      data.note = $('.msg-body.inner').text();
+      showOverlay(data);
+    });
+  }
+
   function amazonQuickAdd () {
 
     var $targetContainer = $('.buyingDetailsGrid');
@@ -211,6 +236,10 @@
     else if (/mail\.live\.com/.test(host) && (/&mid=/.test(hash) || /&mid=/.test(search))) {
 
       outlookQuickAdd();
+    }
+    else if (/mail\.yahoo\.com/.test(host)) {
+
+      yahooQuickAdd();
     }
     else if (/amazon\./.test(host)) {
 
