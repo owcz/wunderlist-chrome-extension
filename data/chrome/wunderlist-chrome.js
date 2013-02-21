@@ -71,7 +71,7 @@
       var close = function close (ev) {
 
         if (ev.data === 'close_wunderlist') {
-          
+
           frame.style.opacity = 0;
 
           setTimeout(function () {
@@ -86,7 +86,7 @@
           }, 500);
         }
       };
-      
+
       window.addEventListener('message', close, false);
     }
   }
@@ -215,6 +215,39 @@
     });
   }
 
+  function imdbQuickAdd () {
+
+    var $targetContainer = $('#img_primary');
+    var $button = $('<div/>').addClass('imdb btn2 large primary')
+      .attr('id', buttonId)
+      .text(addString);
+
+    var $icon = $('<span/>').addClass('wunderlist-icon');
+
+    $button.prepend($icon);
+
+    $targetContainer.append($button);
+
+    $('#' + buttonId).on('click', function (ev) {
+
+      ev.stopPropagation();
+      ev.preventDefault();
+
+      var data = {};
+
+      data.config = config;
+
+      data.title = $('h1 .itemprop').text() + ' [' + $.trim($('.star-box-giga-star').text()) + ']';
+      data.note = $('link[rel="canonical"]').text();
+
+      showOverlay(data);
+      return false;
+    }).on('submit', function () {
+
+      return false;
+    });
+  }
+
   function injectQuickAddLink () {
 
     console.log('hash change');
@@ -244,6 +277,10 @@
     else if (/amazon\./.test(host)) {
 
       amazonQuickAdd();
+    }
+    else if (/imdb\./.test(host)) {
+
+      imdbQuickAdd();
     }
   }
 

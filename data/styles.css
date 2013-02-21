@@ -1,6 +1,7 @@
-/* overlay and login */
+/* Overlay and Login */
+
 #wunderlist_overlay {
-  
+
   border: none;
   height: 100%;
   width: 100%;
@@ -13,7 +14,8 @@
   -webkit-transition: opacity 50ms linear;
 }
 
-/* buttons */
+/* Gmail Button */
+
 #addToWunderlistButton.gmail {
 
   padding-right: 14px;
@@ -32,8 +34,14 @@
   background-size: 16px;
 }
 
-#addToWunderlistButton.outlook span.wunderlist-icon {
+#addToWunderlistButton.gmail:hover {
+  border-color:#C6C6C6;
+  box-shadow:0 1px 2px rgba(0,0,0,0.1);
+}
 
+/* Outlook Button */
+
+#addToWunderlistButton.outlook span.wunderlist-icon {
   top: 4px;
   left: -5px;
   position: relative;
@@ -45,33 +53,19 @@
 }
 
 #wunderlist-container {
-
   background-image: none !important;
 }
 
-#addToWunderlistButton.amazon span.wunderlist-icon {
-
-  top: 2px;
-  left: -16px;
-  position: relative;
-  background: url(http://www.wunderlist.com/icon.png);
-  height: 18px;
-  width: 18px;
-  display: inline-block;
-  background-size: 18px;
-}
+/* Amazon Button */
 
 #addToWunderlistButton.amazon {
-
+  -webkit-font-smoothing:antialiased;
   padding: 10px 0;
   margin-bottom: 10px;
-
   font-family: "Helvetica Neue","Helvetica","Arial",Sans-Serif;
   cursor: pointer;
-
   text-align: center;
   width: 100%;
-
   background: #5cb6e7;
   background: -webkit-gradient(linear,left top,left bottom,from(#5cb6e7),to(#317cd7));
   background: -moz-linear-gradient(top,#5cb6e7,#317cd7);
@@ -79,18 +73,44 @@
   background: linear-gradient(top,#5cb6e7,#317cd7);
   color: white;
   font-weight: bold;
-  border-color: #0c67a5;
+  border:1px solid #0C67A5;
   text-shadow: 0 1px 0 rgba(0,0,0,0.5);
   -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.3);
   -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.3);
   -ms-box-shadow: inset 0 1px 0 rgba(255,255,255,0.3);
   -o-box-shadow: inset 0 1px 0 rgba(255,255,255,0.3);
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.3);
-
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   -ms-border-radius: 4px;
   -o-border-radius: 4px;
   border-radius: 4px;
-  border: 1px solid #b1b1b1;
+}
+
+#addToWunderlistButton.amazon span.wunderlist-icon {
+  float:left;
+  height:24px;
+  width:24px;
+  background: url(http://www.wunderlist.com/icon.png);
+  background-size: 24px;
+  margin-left:10px;
+  margin-top:-2px;
+}
+
+/* IMDB Button */
+
+#addToWunderlistButton.imdb {
+  padding:0 8px;
+  margin: 37px 0 0 0;
+  float: right;
+}
+
+#addToWunderlistButton.imdb span.wunderlist-icon {
+    float:left;
+    height:16px;
+    width:16px;
+    background: url(http://www.wunderlist.com/icon.png);
+    background-size: 16px;
+    margin-top: 6px;
+    margin-right: 6px;
 }
