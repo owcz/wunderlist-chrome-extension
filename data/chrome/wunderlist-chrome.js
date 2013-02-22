@@ -234,11 +234,13 @@
       ev.preventDefault();
 
       var data = {};
-
       data.config = config;
 
-      data.title = $('h1 .itemprop').text() + ' [' + $.trim($('.star-box-giga-star').text()) + ']';
-      data.note = $('link[rel="canonical"]').attr('href') + " " + $.trim($('p[itemprop="description"]').text());
+      var stars = $.trim($('.star-box-giga-star').text());
+      stars = stars.length ? ' [' + stars + ']' : '';
+
+      data.title = $('h1 .itemprop').text() + stars;
+      data.note = $('link[rel="canonical"]').attr('href') + "\n\n" + $.trim($('p[itemprop="description"]').text());
 
       showOverlay(data);
       return false;
