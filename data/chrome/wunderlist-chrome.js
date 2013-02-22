@@ -18,9 +18,14 @@
     var note = data.note || window.location.href;
     var selection = window.getSelection().toString();
 
-    if (!data.note && selection) {
+    if (!data.note) {
 
-      note = note + "\n" + selection;
+      note = note + (selection ? "\n\n" + selection : "\n\n" + $('meta[name="description"]').attr('content'));
+    }
+
+    if (data.specialList) {
+
+      note = 'specialList:' + data.specialList + '\u2603' + note;
     }
 
     note = encodeURIComponent(note);
@@ -207,6 +212,7 @@
       data.config = config;
       data.title = $('meta[name="title"]').text();
       data.note = $('link[rel="canonical"]').text();
+      data.specialList = 'wishlist';
       showOverlay(data);
       return false;
     }).on('submit', function () {
@@ -241,6 +247,7 @@
 
       data.title = $('h1 .itemprop').text() + stars;
       data.note = $('link[rel="canonical"]').attr('href') + "\n\n" + $.trim($('p[itemprop="description"]').text());
+      data.specialList = 'movies';
 
       showOverlay(data);
       return false;
@@ -251,8 +258,6 @@
   }
 
   function injectQuickAddLink () {
-
-    console.log('hash change');
 
     var host = window.location.hostname;
     var hash = window.location.hash;

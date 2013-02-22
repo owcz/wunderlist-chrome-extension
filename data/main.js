@@ -3,8 +3,8 @@ chrome.manifest = chrome.app.getDetails();
 
 // Plugin configuration
 var config = {
-  // 'host': 'http://localhost:5000'
-  'host': 'https://www.wunderlist.com'
+  'host': 'http://localhost:5000'
+  // 'host': 'https://www.wunderlist.com'
 };
 
 // Trigger wunderlist_click in the content scripts,
