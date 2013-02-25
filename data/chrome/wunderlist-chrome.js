@@ -20,7 +20,7 @@
 
     if (!data.note) {
 
-      note = note + (selection ? "\n\n" + selection : "\n\n" + $('meta[name="description"]').attr('content'));
+      note = note + (selection ? " \n\n" + selection : " \n\n" + $('meta[name="description"]').attr('content'));
     }
 
     if (data.specialList) {
