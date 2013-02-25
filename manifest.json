@@ -13,7 +13,7 @@
 
     "js": [
 
-      "data/jquery.min.js",
+      "data/common/libs/jquery.min.js",
 
       "data/common/WL.js",
       "data/common/Injectors.js",
@@ -24,7 +24,7 @@
 
     "css": [
 
-      "data/styles.css"
+      "data/common/css/styles.css"
     ],
 
     "matches": [
