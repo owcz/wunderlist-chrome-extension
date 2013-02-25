@@ -17,7 +17,7 @@
 
       "data/common/WL.js",
       "data/common/Injectors.js",
-      
+
       "data/chrome/wunderlist-chrome-port-wrapper.js",
       "data/chrome/wunderlist-chrome.js"
     ],
@@ -51,7 +51,7 @@
     "contextMenus"
   ],
 
-  "version": "1.0",
+  "version": "1.1",
   
   "icons": {
 
