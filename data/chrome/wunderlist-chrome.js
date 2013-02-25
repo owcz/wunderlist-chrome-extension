@@ -1,81 +1,80 @@
-(function() {
+(function (WL) {
 
-  function buildUrl (data) {
-
-    var title = encodeURI(document.title);
-    var note = window.location.href;
-    var selection = window.getSelection().toString();
-
-    if (selection) {
-      note = note + "\n" + selection;
-    }
-
-    note = encodeURI(note);
-
-    return data.config.host + '/#/extension/add/' + title + '/' + note;
-  }
+  var overlayId = 'wunderlist_overlay';
 
   function buildCss (options) {
 
+    // Create styles for overlay
     var transitionSpeed = options && options.transitionSpeed || 500;
     var opacity = options && options.opacity || 0;
 
-    return 'border:none;height:100%;width:100%;position:fixed;z-index:99999999;top:0;left:0;opacity:' + opacity + ';display:block;-webkit-transition:opacity ' + transitionSpeed + 'ms linear;';
+    return 'opacity:' + opacity + ';-webkit-transition:opacity ' + transitionSpeed + 'ms linear;';
   }
 
-  chrome.extension.onConnect.addListener(function(rawPort) {
+  function showOverlay (postData) {
 
-    var overlayId = 'wunderlist_overlay';
-    var port = PortWrapper(rawPort);
+    var existing = document.getElementById(overlayId);
 
-    port.on('wunderlist_clickQuickAdd', function(postData) {
+    if (!existing) {
 
-      var existing = document.getElementById(overlayId);
+      var frame = document.createElement('iframe');
 
-      if (!existing) {
+      frame.allowtransparency = 'true';
+      frame.scrolling = 'no';
+      frame.id = overlayId;
+      frame.name = overlayId;
+      frame.style.cssText = buildCss();
+      frame.src = WL.buildUrl(postData);
 
-        var frame = document.createElement('iframe');
+      frame.onload = function () {
 
-        frame.allowtransparency = 'true';
-        frame.scrolling = 'no';
-        frame.id = overlayId;
-        frame.name = overlayId;
+        frame.style.opacity = 1;
 
-        frame.style.cssText = buildCss();
-        frame.src = buildUrl(postData);
+        setTimeout(function () {
 
-        frame.onload = function () {
-          frame.style.opacity = 1;
+          frame.style.cssText = buildCss({
+
+            'opacity': 1,
+            'transitionSpeed': 50
+          });
+        }, 1000);
+      };
+
+      document.body.appendChild(frame);
+
+      var close = function close (ev) {
+
+        if (ev.data === 'close_wunderlist') {
+
+          frame.style.opacity = 0;
 
           setTimeout(function () {
-            frame.style.cssText = buildCss({
-              'opacity': 1,
-              'transitionSpeed': 50
-            });
-          }, 1000);
-        };
 
-        document.body.appendChild(frame);
+            frame.src = 'about:blank';
+            frame.onload = function () {
 
-        var close = function close (ev) {
-          if (ev.data === 'close_wunderlist') {
-            
-            frame.style.opacity = 0;
+              window.removeEventListener('message', close, false);
+              frame.parentNode.removeChild(frame);
+              frame = null;
+            };
+          }, 500);
+        }
+      };
 
-            setTimeout(function () {
-              frame.src = 'about:blank';
-              frame.onload = function() {
-                window.removeEventListener('message', close, false);
-                frame.parentNode.removeChild(frame);
-                frame = null;
-              };
-            }, 500);
-          }
-        };
-        
-        window.addEventListener('message', close, false);
-      }
+      window.addEventListener('message', close, false);
+    }
+  }
+
+  chrome.extension.onConnect.addListener(function (rawPort) {
+
+    var port = PortWrapper(rawPort);
+    port.on('wunderlist_clickQuickAdd', function (postData) {
+
+      showOverlay(postData);
     });
   });
 
-}());
+  // exports
+  WL.showOverlay = showOverlay;
+
+})(window.WL);

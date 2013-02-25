@@ -1,21 +1,62 @@
 {
-   "background": { "page": "app.html" },
-   "browser_action": { "default_icon": "icon.png" },
-   "content_scripts": [ {
-      "js": [
-        "data/chrome/wunderlist-chrome-port-wrapper.js",
-        "data/chrome/wunderlist-chrome.js"
-      ],
-      "matches": [ "http://*/*", "https://*/*" ]
-   }],
+  "background": {
+
+    "page": "app.html"
+  },
+  
+  "browser_action": {
+    
+    "default_icon": "icon.png"
+  },
+
+  "content_scripts": [ {
+
+    "js": [
+
+      "data/jquery.min.js",
+
+      "data/common/WL.js",
+      "data/common/Injectors.js",
+
+      "data/chrome/wunderlist-chrome-port-wrapper.js",
+      "data/chrome/wunderlist-chrome.js"
+    ],
+
+    "css": [
+
+      "data/styles.css"
+    ],
+
+    "matches": [
+
+      "http://*/*",
+      "https://*/*"
+    ]
+  }],
+
   "default_locale": "en",
+  
   "description": "__MSG_appDesc__",
-  "content_security_policy": "script-src 'self' https://www.wunderlist.com; object-src 'self'",
+  
+  // "content_security_policy": "script-src 'self' https://www.wunderlist.com; object-src 'self'",
+  "content_security_policy": "script-src 'self' http://localhost:5000; object-src 'self'",
+  
   "manifest_version": 2,
+  
   "name": "__MSG_appName__",
-  "permissions": [ "tabs", "http://*/*", "contextMenus" ],
-  "version": "1.0",
-  "icons": { "16": "icon16.png",
-              "48": "icon48.png",
-              "128": "icon128.png" }
+  
+  "permissions": [
+    "tabs",
+    "http://*/*",
+    "contextMenus"
+  ],
+
+  "version": "1.1",
+  
+  "icons": {
+
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  }
 }
