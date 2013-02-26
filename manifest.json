@@ -16,6 +16,7 @@
       "data/common/libs/jquery.min.js",
 
       "data/common/WL.js",
+      "data/common/Overlay.js",
       "data/common/Injectors.js",
 
       "data/chrome/wunderlist-chrome-port-wrapper.js",
