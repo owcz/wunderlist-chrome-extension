@@ -1,12 +1,6 @@
 // Add manifest access to the extension
 chrome.manifest = chrome.app.getDetails();
 
-// Plugin configuration
-var config = {
-  'host': 'http://localhost:5000'
-  // 'host': 'https://www.wunderlist.com'
-};
-
 // Trigger wunderlist_click in the content scripts,
 // so that an overlay is created
 var attachOverlay = function (data) {
@@ -23,8 +17,7 @@ chrome.browserAction.onClicked.addListener(function (tab) {
 
   attachOverlay({
     
-    'tab': tab,
-    'config': config
+    'tab': tab
   });
 
 });
