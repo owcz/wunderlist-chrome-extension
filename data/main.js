@@ -21,3 +21,17 @@ chrome.browserAction.onClicked.addListener(function (tab) {
   });
 
 });
+
+// context menu item
+chrome.contextMenus.create({
+
+  "title": "Add to Wunderlist",
+  "contexts": ["page", "selection", "image", "link"],
+  "onclick": function (info, tab) {
+
+    attachOverlay({
+
+      'tab': tab
+    });
+  }
+});

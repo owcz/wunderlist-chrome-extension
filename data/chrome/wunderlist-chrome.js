@@ -1,5 +1,6 @@
 (function (WL) {
 
+  // listener for menu button
   chrome.extension.onConnect.addListener(function (rawPort) {
 
     var port = PortWrapper(rawPort);
