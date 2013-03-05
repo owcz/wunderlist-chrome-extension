@@ -16,7 +16,6 @@ var attachOverlay = function (data) {
 chrome.browserAction.onClicked.addListener(function (tab) {
 
   attachOverlay({
-    
     'tab': tab
   });
 
