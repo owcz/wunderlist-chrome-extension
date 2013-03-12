@@ -1,11 +1,6 @@
 // Add manifest access to the extension
 chrome.manifest = chrome.app.getDetails();
 
-// Plugin configuration
-var config = {
-  'host': 'https://www.wunderlist.com'
-};
-
 // Trigger wunderlist_click in the content scripts,
 // so that an overlay is created
 var attachOverlay = function (data) {
@@ -18,11 +13,24 @@ var attachOverlay = function (data) {
 };
 
 // Fire the overlay when the browser action button is clicked
-chrome.browserAction.onClicked.addListener(function(tab) {
+chrome.browserAction.onClicked.addListener(function (tab) {
 
   attachOverlay({
-    'tab': tab,
-    'config': config
+    'tab': tab
   });
 
+});
+
+// context menu item
+chrome.contextMenus.create({
+
+  "title": "Add to Wunderlist",
+  "contexts": ["page", "selection", "image", "link"],
+  "onclick": function (info, tab) {
+
+    attachOverlay({
+
+      'tab': tab
+    });
+  }
 });
