@@ -3,9 +3,9 @@
 
     "page": "app.html"
   },
-  
+
   "browser_action": {
-    
+
     "default_icon": "data/common/icons/AddToWLIcon128.png"
   },
 
@@ -37,16 +37,15 @@
   }],
 
   "default_locale": "en",
-  
+
   "description": "__MSG_appDesc__",
-  
-  // "content_security_policy": "script-src 'self' https://www.wunderlist.com; object-src 'self'",
-  "content_security_policy": "script-src 'self' http://localhost:5000; object-src 'self'",
-  
+
+  "content_security_policy": "script-src 'self' https://www.wunderlist.com; object-src 'self'",
+
   "manifest_version": 2,
-  
+
   "name": "__MSG_appName__",
-  
+
   "permissions": [
     "tabs",
     "http://*/*",
@@ -54,7 +53,7 @@
   ],
 
   "version": "1.1",
-  
+
   "icons": {
 
     "16": "data/common/icons/AddToWLIcon16.png",
