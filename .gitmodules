@@ -1,3 +1,0 @@
-[submodule "data/common"]
-	path = data/common
-	url = git@github.com:6wunderkinder/browser-extension-common.git
