@@ -16,6 +16,7 @@
       "data/common/libs/jquery.min.js",
 
       "data/common/WL.js",
+      "data/common/Storage.js",
       "data/common/Overlay.js",
       "data/common/Scrapers.js",
       "data/common/Injectors.js",
@@ -34,6 +35,20 @@
       "http://*/*",
       "https://*/*"
     ]
+  }, {
+
+    "js": [
+
+      "data/chrome/wunderlist-chrome.js"
+    ],
+
+    "matches": [
+
+      "http://*.wunderlist.com/*",
+      "https://*.wunderlist.com/*"
+    ],
+
+    "all_frames": true
   }],
 
   "default_locale": "en",
@@ -47,6 +62,7 @@
   "name": "__MSG_appName__",
 
   "permissions": [
+    "storage",
     "tabs",
     "http://*/*",
     "contextMenus"
