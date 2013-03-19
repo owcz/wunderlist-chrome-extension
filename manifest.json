@@ -35,20 +35,6 @@
       "http://*/*",
       "https://*/*"
     ]
-  }, {
-
-    "js": [
-
-      "data/chrome/wunderlist-chrome.js"
-    ],
-
-    "matches": [
-
-      "http://*.wunderlist.com/*",
-      "https://*.wunderlist.com/*"
-    ],
-
-    "all_frames": true
   }],
 
   "default_locale": "en",
