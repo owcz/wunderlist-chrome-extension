@@ -16,6 +16,7 @@
       "data/common/libs/jquery.min.js",
 
       "data/common/WL.js",
+      "data/common/Storage.js",
       "data/common/Overlay.js",
       "data/common/Scrapers.js",
       "data/common/Injectors.js",
@@ -47,12 +48,13 @@
   "name": "__MSG_appName__",
 
   "permissions": [
+    "storage",
     "tabs",
     "http://*/*",
     "contextMenus"
   ],
 
-  "version": "1.1",
+  "version": "1.2",
 
   "icons": {
 
