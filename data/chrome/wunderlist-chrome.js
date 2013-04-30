@@ -9,5 +9,4 @@
       WL.showOverlay(postData);
     });
   });
-
 })(window.WL);
