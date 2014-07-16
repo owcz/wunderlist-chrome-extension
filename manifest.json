@@ -41,7 +41,7 @@
 
   "description": "__MSG_appDesc__",
 
-  "content_security_policy": "script-src 'self' https://www.wunderlist.com; object-src 'self'",
+  "content_security_policy": "script-src 'self' https://extension.wunderlist.com; object-src 'self'",
 
   "manifest_version": 2,
 
